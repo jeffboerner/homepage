@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="processing-1.4.1.min.js"></script>
+<title>Tower of Hanoi</title>
+    <style type="text/css">
+        h2 {font-family:verdana;text-align:center;}
+        p {font-family:verdana;text-align:center; max-width:600; font-size: 10px}
+        p.controls {font-family:verdana;text-align:left; max-width:600; font-weight:bold; font-size: 14px}
+        a {font-family:verdana;}
+        table {text-align: left;
+        }
+        </style>
+</head>
+<body>
+
+  <html>
+
+		<h2>Graphs</h2>
+		<p>(Click on applet to use controls.)</p>
+		
+		<p><canvas data-processing-sources="Graphs/Graphs.pde Graphs/Coloring.pde Graphs/EulerCircuits.pde Graphs/Functions.pde Graphs/Hamiltonian.pde Graphs/Input.pde Graphs/Output.pde Graphs/StoredGraphs.pde Graphs/StoredWeights.pde Graphs/Trees.pde"></canvas></p>
+     
+     
+     <p class="controls"> Controls
+     <table>
+     <tr><td>a: animate solution </td> <td width=20></td> <td> s: straightline </td> <td width=20></td> <td> UP: increase number of disks</td></tr>
+     <tr><td> p: pause</td>            <td></td> <td>c: cyclic </td><td></td><td> DOWN: decrease number of disks</td></tr>
+     <tr><td> w: show solution </td>   <td></td> <td> i: zoom in </td> <td></td><td> LEFT: decrease number of pegs</td></tr>
+     <tr><td> d: show distances </td>  <td></td> <td> o: zoom out </td> <td></td><td> RIGHT: increase number of pegs</td></tr>
+     <tr><td> v: show vertices </td>   <td></td> </tr>
+     </table>
+     </p>
+		
+</body>
+</html>

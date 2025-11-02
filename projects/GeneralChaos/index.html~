@@ -1,0 +1,111 @@
+ <!DOCTYPE html>
+    <html>
+      <head>
+      
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+		<style type="text/css">
+		td { text-align: center; } 
+		input {text-align: center; }
+		canvas {width: 80%;}
+		</style>      
+      
+      
+      
+      
+        <meta charset="utf-8">
+        <title>The Chaos Game</title>
+        <script type="text/javascript" src="processing-1.4.1.min.js"></script>
+        <script type="text/javascript">
+        
+			function step(id) {
+          var pjs = Processing.getInstanceById(id);
+          var stepSize =  document.getElementById('stepSize').value; 
+          pjs.stepAnimation(stepSize);
+          } 
+          
+          function play(id) {
+          var pjs = Processing.getInstanceById(id);
+
+			var play = document.getElementById('play'); 
+			var step = document.getElementById('step');          
+          
+			if(play.innerHTML == 'Play'){         
+          
+          play.innerHTML = 'Pause';
+          step.disabled = true; 
+          }
+          else{
+				play.innerHTML = 'Play';     
+				step.disabled = false;     
+          }
+          
+          pjs.play();
+          } 
+          
+          function pause(id) {
+          var pjs = Processing.getInstanceById(id);
+          pjs.pause();
+          }        
+        
+        
+        function update(id) {
+          var pjs = Processing.getInstanceById(id);
+          
+			var fraction =  document.getElementById('fraction').value; 
+			var vertices =  document.getElementById('vertices').value;         
+          
+			var speed = document.getElementById('1').checked;          
+          
+			if(speed){
+				pjs.update('1',fraction,vertices);			
+			}          
+          
+         speed = document.getElementById('2').checked;
+         if(speed){
+				pjs.update('2',fraction,vertices);			
+			}
+			
+			speed = document.getElementById('3').checked;
+         if(speed){
+				pjs.update('3',fraction,vertices);			
+			}
+			
+			speed = document.getElementById('4').checked;
+         if(speed){
+				pjs.update('4',fraction,vertices);			
+			}
+			
+			speed = document.getElementById('5').checked;
+         if(speed){
+				pjs.update('5',fraction,vertices);			
+			}
+         
+         }
+       </script>
+     </head>
+     <body>
+     <center>
+     <h2>The Chaos Game</h2>
+       <canvas id="ChaosGame" data-processing-sources="GeneralChaos.pde"></canvas>
+       
+		<br>       
+		 <input type="text" value="200" id="stepSize" size='5'>
+				<button type="button" onclick="step('ChaosGame')" id='step'>Step</button>
+		<button type="button" onclick="play('ChaosGame')" id='play' >Play</button>
+		<!--<button type="button" onclick="pause('ChaosGame')">Pause</button><br><br>-->
+		<br><br>
+		<table>
+		<tr><td><input type="text" value="3" id="vertices" size='5'></td><td><input type="text" value=".5" id="fraction" size='5'></td></tr>
+		<tr><td>Vertices</td><td>Fraction</td></tr>		
+		</table>
+       <br>Speed<br>
+      <input type="radio" name="speed" value="1" id="1" checked>1 
+		<input type="radio" name="speed" value="2" id="2">2 
+		<input type="radio" name="speed" value="3" id="3">3 
+		<input type="radio" name="speed" value="4" id="4">4 
+		<input type="radio" name="speed" value="5" id="5">5 <br>
+		<button type="button" onclick="update('ChaosGame')">Update</button><br><br>
+       </center>
+     </body>
+   </html>

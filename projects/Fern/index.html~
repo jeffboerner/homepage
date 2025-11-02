@@ -1,0 +1,19 @@
+ <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>The Barnsley Fern</title>
+        <script type="text/javascript" src="processing-1.4.1.min.js"></script>
+        <script type="text/javascript">
+        function setTheFunction(id) {
+          var pjs = Processing.getInstanceById(id);
+         var text = document.getElementById('inputtext').value;
+         pjs.setFunction(text); }
+       </script>
+     </head>
+     <body>
+     <center>
+       <canvas id="RiemannSum" data-processing-sources="Fern.pde"></canvas>
+       </center>
+     </body>
+   </html>

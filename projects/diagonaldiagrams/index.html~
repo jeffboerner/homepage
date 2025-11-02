@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="processing-1.4.1.min.js"></script>
+<title>Grid Diagrams</title>
+    <style type="text/css">
+        h2 {font-family:verdana;text-align:center;}
+        p {font-family:verdana;text-align:center; max-width:600; font-size: 14px max-width:550}
+        p.controls {font-family:verdana;text-align:left; max-width:600; font-weight:bold; font-size: 14px}
+        p.disclaimer {font-family:verdana;text-align:center; max-width:600; font-size: 12px}
+        a {font-family:verdana;}
+        table {text-align: left;
+        }
+        </style>
+</head>
+<body>
+
+  <html>
+
+		<h2>Grid Diagrams</h2>
+		<p>A grid diagram is a square grid with exactly one 'X' in each row and column and exactly one 'O' in each row and column. The 'X' and 'O' in each column are connected to each other, followed by the 'X' and 'O' in each row. Every link can be represented with a grid diagram.
+		</p>
+		<p class="disclaimer">
+		
+		</p>
+		
+		<p><canvas data-processing-sources="Grid_Diagrams/Grid_Diagrams.pde Grid_Diagrams/UserInput.pde Grid_Diagrams/DrawFunctions.pde Grid_Diagrams/StateChange.pde"></canvas></p>
+     
+     <p class="controls"> Controls
+     <table>
+     <tr><td>+: Increase the size of the grid </td><td>&nbsp &nbsp &nbsp</td><td>x: An 'X' will appear in the square the mouse pointer is in </td></tr>
+     <tr><td>-: Decrease the size of the grid </td><td>&nbsp</td><td>o: An 'O' will appear in the square the mouse pointer is in </td></tr>
+     <tr><td>UP: Raise vertical strands </td><td>&nbsp</td><td>p: Toggle planes for arc presentation</td></tr>
+     <tr><td>DOWN: Lower vertical strands </td><td>&nbsp</td><td>LEFT: Shorten horizontal strands </td></tr>
+     <tr><td>g: Toggle grid </td><td>&nbsp</td><td>RIGHT: Lengthen horizontal strands </td></tr>
+     <tr><td>k: Toggle knot </td></tr>
+     </table>
+     </p>
+		
+</body>
+</html>

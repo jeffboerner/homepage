@@ -1,0 +1,49 @@
+ <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Derivatives</title>
+        <script type="text/javascript" src="processing-1.4.1.min.js"></script>
+        <script type="text/javascript">
+        function setTheFunction(id) {
+          var pjs = Processing.getInstanceById(id);
+         var functionText = document.getElementById('function').value;
+         var xText = document.getElementById('value').value;
+         pjs.setFunction(functionText,xText); }
+         
+         function increaseDelta(id) {
+          var pjs = Processing.getInstanceById(id);
+         pjs.increaseDelta(); }
+         
+         function decreaseDelta(id) {
+          var pjs = Processing.getInstanceById(id);
+         pjs.decreaseDelta(); }
+         
+         function resetDelta(id) {
+          var pjs = Processing.getInstanceById(id);
+         pjs.resetDelta(); }
+         
+         function takeLimit(id) {
+          var pjs = Processing.getInstanceById(id);
+         pjs.takeLimit(); }
+         
+         function stopAuto(id) {
+          var pjs = Processing.getInstanceById(id);
+         pjs.stopLimit(); }
+       </script>
+     </head>
+     <body>
+     <center>
+       <canvas id="Derivative" data-processing-sources="Derivative.pde Control.pde UserInput.pde InputParser.pde"></canvas>
+       <br><br>
+       y=<input type="textfield" value="x^2" id="function"> x0=<input type="textfield" value="1" id="value">
+       <br>
+       <button type="button" onclick="setTheFunction('Derivative')">Update Function</button>
+       <button type="button" onclick="decreaseDelta('Derivative')">Decrease Delta</button>
+       <button type="button" onclick="increaseDelta('Derivative')">Increase Delta</button>
+       <button type="button" onclick="takeLimit('Derivative')">Take the limit!</button>
+       <button type="button" onclick="stopLimit('Derivative')">Stop</button>
+       <button type="button" onclick="resetDelta('Derivative')">Reset</button>
+       </center>
+     </body>
+   </html>

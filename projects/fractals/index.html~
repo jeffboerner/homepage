@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="processing-1.4.1.min.js"></script>
+<title>Fractals</title>
+    <style type="text/css">
+        h2 {font-family:verdana;text-align:center;}
+        p {font-family:verdana;text-align:center; max-width:600; font-size: 10px}
+        p.controls {font-family:verdana;text-align:left; max-width:600; font-weight:bold; font-size: 14px}
+        a {font-family:verdana;}
+        table {text-align: left;
+        }
+        </style>
+</head>
+<body>
+
+  <html>
+
+		<h2>Fractals</h2>
+		<p>(Click on the Mandelbrot set to see the corresponding Julia set.)</p>
+		
+		<p><canvas data-processing-sources="Fractals/Fractals.pde"></canvas></p>
+     
+     
+     <p class="controls"> Controls
+     <table>
+     <tr><td>a: animate solution </td> <td> s: straightline </td></tr>
+     <tr><td> p: pause</td> <td>c: cyclic </td></tr>
+     <tr><td> w: show solution </td> <td> UP: increase number of disks</td></tr>
+     <tr><td> d: show distances </td> <td> DOWN: decrease number of disks</td></tr>
+     <tr><td> v: show vertices </td> <td> LEFT: decrease number of pegs</td></tr>
+     <tr><td> i: zoom in </td> <td> RIGHT: increase number of pegs</td></tr>
+     <tr><td> o: zoom out </td> <td> </td></tr>
+     </table>
+     </p>
+		
+</body>
+</html>

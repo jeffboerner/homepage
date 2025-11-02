@@ -1,0 +1,47 @@
+ <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Riemann Sums</title>
+        <script type="text/javascript" src="processing-1.4.1.min.js"></script>
+        <script type="text/javascript">
+        function setTheFunction(id) {
+          var pjs = Processing.getInstanceById(id);
+         var functionText = document.getElementById('function').value;
+         var aText = document.getElementById('a').value;
+         var bText = document.getElementById('b').value;
+         pjs.setFunction(functionText,aText,bText); }
+         
+         function increaseN(id) {
+          var pjs = Processing.getInstanceById(id);
+         pjs.increaseN(); }
+         
+         function decreaseN(id) {
+          var pjs = Processing.getInstanceById(id);
+         pjs.decreaseN(); }
+         
+         function startAuto(id) {
+          var pjs = Processing.getInstanceById(id);
+         pjs.startAuto(); }
+         
+         function stopAuto(id) {
+          var pjs = Processing.getInstanceById(id);
+         pjs.stopAuto(); }
+       </script>
+     </head>
+     <body>
+     <center>
+       <canvas id="RiemannSum" data-processing-sources="RiemannSum.pde Control.pde UserInput.pde InputParser.pde"></canvas>
+       <br><br>
+       y=<input type="textfield" value="x^2" id="function">
+       a=<input type="textfield" value="-5" id="a">
+       b=<input type="textfield" value="5" id="b">
+       <br>
+       <button type="button" onclick="setTheFunction('RiemannSum')">Update Function</button>
+       <button type="button" onclick="increaseN('RiemannSum')">Increase n</button>
+       <button type="button" onclick="decreaseN('RiemannSum')">Decrease n</button>
+       <button type="button" onclick="startAuto('RiemannSum')">Take the limit!</button>
+       <button type="button" onclick="stopAuto('RiemannSum')">Stop</button>
+       </center>
+     </body>
+   </html>

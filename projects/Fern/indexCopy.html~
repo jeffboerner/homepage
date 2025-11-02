@@ -1,0 +1,32 @@
+ <!DOCTYPE html>
+    <html>
+      <head>
+       <style type="text/css">
+           body{
+      margin:0;
+      padding:0;
+    }
+    canvas{
+      position:absolute;
+      left:0;
+      top:0;
+      z-index:0;
+    }
+    div{
+      position:absolute;
+      z-index:1;
+      left:180px;
+      top:220px;
+    }
+       </style>
+        <meta charset="utf-8">
+        <title>The Barnsley Fern</title>
+        <script type="text/javascript" src="processing-1.4.1.min.js"></script>
+     </head>
+     <body>
+     <center>
+       <canvas id="Fern" data-processing-sources="Fern.pde"></canvas>
+       <div>The Barnsley Fern</div>
+       </center>
+     </body>
+   </html>

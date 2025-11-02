@@ -1,0 +1,20 @@
+ <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Pick's Theorem</title>
+        <script type="text/javascript" src="../processing-1.4.1.min.js"></script>
+       </script>
+     </head>
+     <body>
+     <center>
+		<H2>Pick's Theorem </H2>
+		<br>     
+     
+       <canvas id="PicksTheorem" data-processing-sources="PicksTheorem.pde drawFunctions.pde Point.pde Segment.pde UserInput.pde"></canvas>
+       <br><br>
+       
+       Click on vertices to draw a polygon. The area of the polygon is determined using Pick's Theorem. Press 'r' to reset the application;
+       </center>
+     </body>
+   </html>
