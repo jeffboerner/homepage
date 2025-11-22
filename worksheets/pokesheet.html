@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Handwriting Practice</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 0.5in;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f0f8ff;
+        }
+        
+        .worksheet {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #cc0000;
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #3b4cca;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        
+        .pokemon-card {
+            margin-bottom: 30px;
+            border: 3px solid #ffcb05;
+            border-radius: 12px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff 0%, #f9f9f9 100%);
+            page-break-inside: avoid;
+        }
+        
+        .pokemon-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ffcb05;
+        }
+        
+        .pokemon-header-top {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .pokemon-image {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+        
+        .pokemon-number {
+            font-weight: bold;
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .pokemon-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3b4cca;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .practice-section {
+            margin: 15px 0;
+        }
+        
+        .label {
+            font-weight: bold;
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .dotted-text {
+            font-size: 22px;
+            color: #ccc;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .practice-line {
+            border-bottom: 2px solid #3b4cca;
+            height: 35px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        
+        .practice-line::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            border-top: 1px dashed #ccc;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .stat-box {
+            background: #f0f8ff;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .coloring-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 2px dashed #ffcb05;
+            text-align: center;
+        }
+        
+        .coloring-section .label {
+            margin-bottom: 10px;
+        }
+        
+        .coloring-image {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            filter: grayscale(100%) brightness(1.2) contrast(1.3);
+            border: 2px solid #333;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .type-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            margin-right: 5px;
+        }
+        
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        button {
+            background: #cc0000;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background: #ff0000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .controls {
+                display: none;
+            }
+            .worksheet {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button onclick="generateWorksheet()">Generate New Worksheet</button>
+        <button onclick="window.print()">Print Worksheet</button>
+    </div>
+    
+    <div class="worksheet" id="worksheet">
+        <h1>⚡ Pokémon Handwriting Practice ⚡</h1>
+        <div class="subtitle">Name: _________________ Date: _________________</div>
+        
+        <div id="pokemon-container"></div>
+    </div>
+
+    <script>
+        const pokemonData = [
+            {name: "Pikachu", number: "025", type: ["Electric"], region: "Kanto", height: "0.4m", weight: "6.0kg", id: 25},
+            {name: "Charizard", number: "006", type: ["Fire", "Flying"], region: "Kanto", height: "1.7m", weight: "90.5kg", id: 6},
+            {name: "Bulbasaur", number: "001", type: ["Grass", "Poison"], region: "Kanto", height: "0.7m", weight: "6.9kg", id: 1},
+            {name: "Squirtle", number: "007", type: ["Water"], region: "Kanto", height: "0.5m", weight: "9.0kg", id: 7},
+            {name: "Mewtwo", number: "150", type: ["Psychic"], region: "Kanto", height: "2.0m", weight: "122.0kg", id: 150},
+            {name: "Eevee", number: "133", type: ["Normal"], region: "Kanto", height: "0.3m", weight: "6.5kg", id: 133},
+            {name: "Snorlax", number: "143", type: ["Normal"], region: "Kanto", height: "2.1m", weight: "460.0kg", id: 143},
+            {name: "Dragonite", number: "149", type: ["Dragon", "Flying"], region: "Kanto", height: "2.2m", weight: "210.0kg", id: 149},
+            {name: "Lucario", number: "448", type: ["Fighting", "Steel"], region: "Sinnoh", height: "1.2m", weight: "54.0kg", id: 448},
+            {name: "Greninja", number: "658", type: ["Water", "Dark"], region: "Kalos", height: "1.5m", weight: "40.0kg", id: 658},
+            {name: "Umbreon", number: "197", type: ["Dark"], region: "Johto", height: "1.0m", weight: "27.0kg", id: 197},
+            {name: "Garchomp", number: "445", type: ["Dragon", "Ground"], region: "Sinnoh", height: "1.9m", weight: "95.0kg", id: 445},
+            {name: "Mimikyu", number: "778", type: ["Ghost", "Fairy"], region: "Alola", height: "0.2m", weight: "0.7kg", id: 778},
+            {name: "Blaziken", number: "257", type: ["Fire", "Fighting"], region: "Hoenn", height: "1.9m", weight: "52.0kg", id: 257},
+            {name: "Lycanroc", number: "745", type: ["Rock"], region: "Alola", height: "0.8m", weight: "25.0kg", id: 745}
+        ];
+        
+        const typeColors = {
+            "Fire": "#F08030",
+            "Water": "#6890F0",
+            "Grass": "#78C850",
+            "Electric": "#F8D030",
+            "Psychic": "#F85888",
+            "Normal": "#A8A878",
+            "Fighting": "#C03028",
+            "Flying": "#A890F0",
+            "Poison": "#A040A0",
+            "Ground": "#E0C068",
+            "Rock": "#B8A038",
+            "Bug": "#A8B820",
+            "Ghost": "#705898",
+            "Steel": "#B8B8D0",
+            "Dragon": "#7038F8",
+            "Dark": "#705848",
+            "Fairy": "#EE99AC",
+            "Ice": "#98D8D8"
+        };
+        
+        function getRandomPokemon(count) {
+            const shuffled = [...pokemonData].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+        
+        function createPokemonCard(pokemon) {
+            const types = pokemon.type.map(type => 
+                `<span class="type-badge" style="background-color: ${typeColors[type]}">${type}</span>`
+            ).join('');
+            
+            return `
+                <div class="pokemon-card">
+                    <div class="pokemon-header-top">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png" 
+                             alt="${pokemon.name}" 
+                             class="pokemon-image"
+                             onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png'">
+                        <div style="flex: 1;">
+                            <div class="pokemon-header">
+                                <div class="pokemon-number">#${pokemon.number}</div>
+                                <div class="pokemon-name">${pokemon.name}</div>
+                                <div>${types}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="practice-section">
+                        <div class="label">Practice writing the name:</div>
+                        <div class="practice-line"></div>
+                        <div class="practice-line"></div>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="label">Type:</div>
+                            <div class="practice-line"></div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Region: ${pokemon.region}</div>
+                            <div class="practice-line"></div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Height: ${pokemon.height}</div>
+                            <div class="practice-line"></div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Weight: ${pokemon.weight}</div>
+                            <div class="practice-line"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="coloring-section">
+                        <div class="label">Color me in! 🎨</div>
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png" 
+                             alt="${pokemon.name} coloring" 
+                             class="coloring-image"
+                             onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png'">
+                    </div>
+                </div>
+            `;
+        }
+        
+        function generateWorksheet() {
+            const pokemon = getRandomPokemon(5);
+            const container = document.getElementById('pokemon-container');
+            container.innerHTML = pokemon.map(p => createPokemonCard(p)).join('');
+        }
+        
+        // Generate initial worksheet
+        generateWorksheet();
+    </script>
+</body>
+</html>
