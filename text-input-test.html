@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Input Test Page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+            margin-top: 30px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .field-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #444;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="search"],
+        input[type="url"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            resize: vertical;
+        }
+        .contenteditable {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+        }
+        iframe {
+            width: 100%;
+            height: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+        }
+        .hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: 3px;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Text Input Test Page</h1>
+    <p>Use this page to test text input in various field types.</p>
+
+    <div class="section">
+        <h2>Standard Input Fields</h2>
+
+        <div class="field-group">
+            <label for="text-input">Text Input</label>
+            <input type="text" id="text-input" placeholder="Type your snippet here...">
+        </div>
+
+        <div class="field-group">
+            <label for="email-input">Email Input</label>
+            <input type="email" id="email-input" placeholder="test@example.com">
+        </div>
+
+        <div class="field-group">
+            <label for="password-input">Password Input</label>
+            <input type="password" id="password-input" placeholder="Enter password...">
+            <div class="hint">Test if expansions work in password fields</div>
+        </div>
+
+        <div class="field-group">
+            <label for="search-input">Search Input</label>
+            <input type="search" id="search-input" placeholder="Search...">
+        </div>
+
+        <div class="field-group">
+            <label for="url-input">URL Input</label>
+            <input type="url" id="url-input" placeholder="https://example.com">
+        </div>
+
+        <div class="field-group">
+            <label for="tel-input">Telephone Input</label>
+            <input type="tel" id="tel-input" placeholder="(555) 123-4567">
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Textarea Fields</h2>
+
+        <div class="field-group">
+            <label for="textarea-small">Small Textarea</label>
+            <textarea id="textarea-small" rows="3" placeholder="Type here..."></textarea>
+        </div>
+
+        <div class="field-group">
+            <label for="textarea-large">Large Textarea</label>
+            <textarea id="textarea-large" rows="6" placeholder="Larger text area for longer expansions..."></textarea>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>ContentEditable Elements</h2>
+
+        <div class="field-group">
+            <label>ContentEditable Div</label>
+            <div class="contenteditable" contenteditable="true" data-placeholder="Type in this contenteditable div..."></div>
+        </div>
+
+        <div class="field-group">
+            <label>ContentEditable with plaintext-only</label>
+            <div class="contenteditable" contenteditable="plaintext-only">Type here (plaintext only)...</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Input with Attributes</h2>
+
+        <div class="field-group">
+            <label for="readonly-input">Readonly Input</label>
+            <input type="text" id="readonly-input" value="This is readonly" readonly>
+            <div class="hint">Should not accept expansions</div>
+        </div>
+
+        <div class="field-group">
+            <label for="disabled-input">Disabled Input</label>
+            <input type="text" id="disabled-input" value="This is disabled" disabled>
+            <div class="hint">Should not accept expansions</div>
+        </div>
+
+        <div class="field-group">
+            <label for="maxlength-input">Input with maxlength="20"</label>
+            <input type="text" id="maxlength-input" maxlength="20" placeholder="Max 20 chars">
+            <div class="hint">Test expansion truncation behavior</div>
+        </div>
+
+        <div class="field-group">
+            <label for="spellcheck-off">Spellcheck Disabled</label>
+            <input type="text" id="spellcheck-off" spellcheck="false" placeholder="Spellcheck is off">
+        </div>
+
+        <div class="field-group">
+            <label for="autocomplete-off">Autocomplete Disabled</label>
+            <input type="text" id="autocomplete-off" autocomplete="off" placeholder="Autocomplete is off">
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Iframe with Input Fields</h2>
+        <p class="hint">Tests expansion in cross-origin and same-origin iframes</p>
+
+        <div class="field-group">
+            <label>Same-origin Iframe</label>
+            <iframe id="same-origin-iframe" srcdoc="
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        body { font-family: sans-serif; padding: 15px; margin: 0; }
+                        input, textarea { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+                        label { display: block; font-size: 13px; color: #555; margin-top: 10px; }
+                    </style>
+                </head>
+                <body>
+                    <label>Text input inside iframe:</label>
+                    <input type='text' placeholder='Type snippet here...'>
+                    <label>Textarea inside iframe:</label>
+                    <textarea rows='2' placeholder='Or here...'></textarea>
+                    <label>Password inside iframe:</label>
+                    <input type='password' placeholder='Password field...'>
+                </body>
+                </html>
+            "></iframe>
+        </div>
+
+        <div class="field-group">
+            <label>Nested Iframe</label>
+            <iframe id="nested-iframe" srcdoc="
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        body { font-family: sans-serif; padding: 10px; margin: 0; }
+                        iframe { width: 100%; height: 100px; border: 1px dashed #999; }
+                        label { display: block; font-size: 12px; color: #666; }
+                    </style>
+                </head>
+                <body>
+                    <label>This iframe contains another iframe:</label>
+                    <iframe srcdoc='
+                        <!DOCTYPE html>
+                        <html>
+                        <head><style>body{font-family:sans-serif;padding:10px;margin:0;}input{width:100%;padding:6px;border:1px solid #ccc;border-radius:3px;box-sizing:border-box;}</style></head>
+                        <body>
+                            <input type=\"text\" placeholder=\"Deeply nested input...\">
+                        </body>
+                        </html>
+                    '></iframe>
+                </body>
+                </html>
+            "></iframe>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Form Fields</h2>
+        <form onsubmit="return false;">
+            <div class="field-group">
+                <label for="form-name">Name</label>
+                <input type="text" id="form-name" name="name" placeholder="Your name">
+            </div>
+            <div class="field-group">
+                <label for="form-email">Email</label>
+                <input type="email" id="form-email" name="email" placeholder="your@email.com">
+            </div>
+            <div class="field-group">
+                <label for="form-password">Password</label>
+                <input type="password" id="form-password" name="password" placeholder="Your password">
+            </div>
+            <div class="field-group">
+                <label for="form-message">Message</label>
+                <textarea id="form-message" name="message" rows="4" placeholder="Your message..."></textarea>
+            </div>
+        </form>
+    </div>
+
+    <div class="section">
+        <h2>Shadow DOM (if supported)</h2>
+        <div id="shadow-host"></div>
+        <div class="hint">Input field inside Shadow DOM</div>
+    </div>
+
+    <script>
+        // Create Shadow DOM input for testing
+        const shadowHost = document.getElementById('shadow-host');
+        if (shadowHost.attachShadow) {
+            const shadow = shadowHost.attachShadow({ mode: 'open' });
+            shadow.innerHTML = `
+                <style>
+                    input {
+                        width: 100%;
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                        font-size: 14px;
+                        box-sizing: border-box;
+                    }
+                </style>
+                <input type="text" placeholder="Input inside Shadow DOM...">
+            `;
+        } else {
+            shadowHost.innerHTML = '<em>Shadow DOM not supported in this browser</em>';
+        }
+    </script>
+</body>
+</html>
