@@ -228,13 +228,72 @@
                         <html>
                         <head><style>body{font-family:sans-serif;padding:10px;margin:0;}input{width:100%;padding:6px;border:1px solid #ccc;border-radius:3px;box-sizing:border-box;}</style></head>
                         <body>
-                            <input type=\"text\" placeholder=\"Deeply nested input...\">
+                            <input type=&quot;text&quot; placeholder=&quot;Deeply nested input...&quot;>
                         </body>
                         </html>
                     '></iframe>
                 </body>
                 </html>
             "></iframe>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Opaque-origin &amp; ServiceNow-style Iframes</h2>
+        <p class="hint">
+            Reproduces the ServiceNow CWF cases: opaque-origin frames (data: / sandboxed srcdoc, whose
+            origin serializes as "null") and rich-text contenteditable where the caret lands on an inner
+            node rather than the editable host.
+        </p>
+
+        <div class="field-group">
+            <label>data: URL iframe (opaque origin)</label>
+            <iframe
+                title="vi-data-url"
+                src="data:text/html,<!DOCTYPE html><html><head><meta charset='utf-8'></head><body style='font-family:sans-serif;padding:12px;margin:0'><label style='font-size:13px;color:#555'>Input in a data: URL iframe</label><br><input type='text' placeholder='Type ztext here...' style='width:100%;padding:8px;margin-top:6px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box'></body></html>"
+            ></iframe>
+            <div class="hint">Opaque origin — exercises the postMessage <code>'*'</code> focusIn fallback (old code dropped these).</div>
+        </div>
+
+        <div class="field-group">
+            <label>srcdoc iframe with rich-text contenteditable (caret on inner &lt;p&gt;)</label>
+            <iframe title="vi-srcdoc-richtext" srcdoc="
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset='utf-8'>
+                    <style>
+                        body { font-family: sans-serif; padding: 12px; margin: 0; }
+                        label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; }
+                        .rt { border: 1px solid #ccc; border-radius: 4px; padding: 8px; min-height: 60px; }
+                        .rt p { margin: 0 0 6px 0; }
+                    </style>
+                </head>
+                <body>
+                    <label>Short Description (rich text):</label>
+                    <div class='rt' contenteditable='true'><p>Click into this line and type ztext...</p></div>
+                </body>
+                </html>
+            "></iframe>
+            <div class="hint">ServiceNow rich-text analog — <code>document.activeElement</code> is the inner &lt;p&gt;, so it exercises <code>resolveEffectiveExpansionSurface</code>.</div>
+        </div>
+
+        <div class="field-group">
+            <label>Sandboxed srcdoc iframe (truly opaque origin)</label>
+            <iframe
+                title="vi-sandboxed-srcdoc"
+                sandbox="allow-scripts allow-forms"
+                srcdoc="
+                <!DOCTYPE html>
+                <html>
+                <head><meta charset='utf-8'></head>
+                <body style='font-family:sans-serif;padding:12px;margin:0'>
+                    <label style='font-size:13px;color:#555'>Input in sandboxed (no allow-same-origin) frame:</label>
+                    <input type='text' placeholder='Type snippet here...' style='width:100%;padding:8px;margin-top:6px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box'>
+                </body>
+                </html>
+            "></iframe>
+            <div class="hint">Sandbox without <code>allow-same-origin</code> ⇒ opaque origin even though the URL is non-null. Known gap raised in the PR review.</div>
         </div>
     </div>
 
