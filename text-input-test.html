@@ -148,6 +148,12 @@
             <label>ContentEditable with plaintext-only</label>
             <div class="contenteditable" contenteditable="plaintext-only">Type here (plaintext only)...</div>
         </div>
+
+        <div class="field-group">
+            <label>ContentEditable containing a focusable &lt;button&gt; / link</label>
+            <div class="contenteditable" contenteditable="true">Editable text here. Now click this <button type="button">button</button> or this <a href="#" onclick="return false;">link</a> — focus leaves the text (no caret), but watch whether the TE icon still appears on this region.</div>
+            <div class="hint">Tests <code>resolveEffectiveExpansionSurface</code>: a focused non-editable descendant (button/link) resolves to the contenteditable host. Pre-fix: no icon. Post-fix: icon appears even though there's no caret.</div>
+        </div>
     </div>
 
     <div class="section">
