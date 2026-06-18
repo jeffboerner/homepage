@@ -150,9 +150,12 @@
         </div>
 
         <div class="field-group">
-            <label>ContentEditable containing a focusable &lt;button&gt; / link</label>
-            <div class="contenteditable" contenteditable="true">Editable text here. Now click this <button type="button">button</button> or this <a href="#" onclick="return false;">link</a> — focus leaves the text (no caret), but watch whether the TE icon still appears on this region.</div>
-            <div class="hint">Tests <code>resolveEffectiveExpansionSurface</code>: a focused non-editable descendant (button/link) resolves to the contenteditable host. Pre-fix: no icon. Post-fix: icon appears even though there's no caret.</div>
+            <label>ContentEditable with a non-editable chip (<code>contenteditable="false"</code>)</label>
+            <div class="contenteditable" contenteditable="true">Type text here, then click the chip:
+                <span contenteditable="false" tabindex="0"
+                      style="display:inline-block;background:#e6f0ff;border:1px solid #adceff;border-radius:12px;padding:1px 10px;font-size:13px;cursor:pointer;user-select:none">@mention</span>
+                — a focusable, non-editable token (like a mention/embed).</div>
+            <div class="hint">The chip is <code>contenteditable="false"</code>, but the bare <code>[contenteditable]</code> in <code>SELECTOR_INPUT</code> matches it anyway — so when you focus it, TE treats this non-editable token as an expansion surface (icon appears on it). This is a latent bug present before <em>and</em> after the PR; the fix should exclude <code>contenteditable="false"</code>.</div>
         </div>
     </div>
 
