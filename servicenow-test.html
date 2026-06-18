@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiceNow CWF Expansion Test</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px; margin: 0 auto; padding: 20px; background: #f5f5f5;
+        }
+        h1 { color: #333; }
+        h2 { color: #555; margin-top: 30px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        a { color: #1a6ec0; }
+        .section { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .note { font-size: 13px; color: #555; background: #fffbe6; border: 1px solid #ffe58f; border-radius: 4px; padding: 10px 12px; line-height: 1.5; }
+        .frame-host { width: 100%; height: 420px; border: none; }
+        code { font-family: monospace; background: #f5f5f5; padding: 1px 4px; border-radius: 2px; }
+    </style>
+</head>
+<body>
+    <h1>ServiceNow CWF Expansion Test</h1>
+    <p><a href="text-input-test.html">&larr; Back to Text Input Test Page</a></p>
+
+    <div class="note">
+        <strong>How to use:</strong> the Chrome extension should win over the native app, so to test the
+        <em>extension</em>, <strong>quit the native TextExpander app first</strong>. The Chrome visual icon
+        appearing on a field is the signal the extension is tracking it.
+        <br><br>
+        This mimics ServiceNow's Customer Work Form: <code>top &rarr; workspace srcdoc iframe &rarr; record-form
+        srcdoc iframe</code> (both <code>about:srcdoc</code>, same-origin as parent). The nested iframes are
+        built via JS to avoid srcdoc-escaping issues.
+    </div>
+
+    <div class="section">
+        <h2>Nested srcdoc record form (2 levels deep)</h2>
+        <p class="note" style="background:#f0f7ff;border-color:#baddff">
+            <strong>Field A — normal rich text (control):</strong> caret focuses the contenteditable host, so
+            <code>document.activeElement</code> is the host. Works before and after the fix.
+            <br>
+            <strong>Field B — inner-node focus (synthetic bug trigger):</strong> clicking focuses an inner
+            <code>&lt;p tabindex="0"&gt;</code>, so <code>document.activeElement</code> is the inner node, NOT
+            the contenteditable host. This is the condition <code>resolveEffectiveExpansionSurface</code>
+            exists for. <em>Pre-fix:</em> no TE icon (activeElement doesn't match the input selector).
+            <em>Post-fix:</em> icon resolves to the host. (Synthetic — forces the code path; not a verified
+            pixel match of ServiceNow's editor.)
+        </p>
+        <iframe id="cwf-host" class="frame-host" title="cwf-workspace-shell"></iframe>
+    </div>
+
+    <script>
+        // Build nested srcdoc iframes via JS (no HTML-attribute escaping headaches).
+        const escAttr = (s) => s.replace(/"/g, '&quot;');
+
+        // Level 2: the record form with the actual fields.
+        const recordFormHtml = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: sans-serif; margin: 0; padding: 14px; background: #fff; }
+  .badge { display:inline-block; background:#f50; color:#fff; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px; letter-spacing:.5px; margin-bottom:12px; }
+  label { display:block; font-size:11px; font-weight:600; color:#555; text-transform:uppercase; letter-spacing:.3px; margin: 14px 0 4px; }
+  .rt { border:1px solid #ccc; border-radius:4px; padding:8px; min-height:48px; }
+  .rt:focus, .rt p:focus { outline:none; border-color:#1890ff; box-shadow:0 0 0 2px rgba(24,144,255,.15); }
+  .rt p { margin:0 0 6px; }
+</style>
+</head>
+<body>
+  <div class="badge">LEVEL 2 — Record Form (about:srcdoc)</div>
+
+  <label>Field A — Short Description (normal rich text)</label>
+  <div class="rt" contenteditable="true"><p>Click here and type ztext...</p></div>
+
+  <label>Field B — Notes (inner-node focus, synthetic)</label>
+  <div class="rt" contenteditable="true"><p data-focus-inner tabindex="0">Click this line — focus lands on the inner &lt;p&gt;...</p></div>
+
+  <script>
+    // Force activeElement onto the inner <p> (not the contenteditable host) on click.
+    document.querySelectorAll('[data-focus-inner]').forEach((p) => {
+      p.addEventListener('mousedown', (e) => { e.preventDefault(); p.focus(); });
+    });
+  <\/script>
+</body>
+</html>`;
+
+        // Level 1: the workspace shell that embeds the record form.
+        const workspaceHtml = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: sans-serif; margin: 0; padding: 12px; background: #f5f7fa; }
+  .badge { display:inline-block; background:#1890ff; color:#fff; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px; letter-spacing:.5px; margin-bottom:10px; }
+  iframe { width: 100%; height: 300px; border: 1px solid #d9d9d9; border-radius: 4px; background: #fff; }
+</style>
+</head>
+<body>
+  <div class="badge">LEVEL 1 — CWF Agent Workspace (about:srcdoc)</div>
+  <iframe title="cwf-record-form" srcdoc="${escAttr(recordFormHtml)}"></iframe>
+</body>
+</html>`;
+
+        document.getElementById('cwf-host').srcdoc = workspaceHtml;
+    </script>
+</body>
+</html>
