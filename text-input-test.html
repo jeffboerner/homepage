@@ -244,13 +244,16 @@
             Reproduces the ServiceNow CWF cases: opaque-origin frames (data: / sandboxed srcdoc, whose
             origin serializes as "null") and rich-text contenteditable where the caret lands on an inner
             node rather than the editable host.
+            <br><strong>To test the Chrome extension here, quit the native TextExpander app first</strong> —
+            the macOS/Windows app expands via OS keyboard monitoring regardless of frame origin, so it will
+            mask whether the extension itself works in opaque frames.
         </p>
 
         <div class="field-group">
             <label>data: URL iframe (opaque origin)</label>
             <iframe
                 title="vi-data-url"
-                src="data:text/html,<!DOCTYPE html><html><head><meta charset='utf-8'></head><body style='font-family:sans-serif;padding:12px;margin:0'><label style='font-size:13px;color:#555'>Input in a data: URL iframe</label><br><input type='text' placeholder='Type ztext here...' style='width:100%;padding:8px;margin-top:6px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box'></body></html>"
+                src="data:text/html,%3C%21doctype%20html%3E%3Chtml%3E%3Chead%3E%3Cmeta%20charset%3D%22utf-8%22%3E%3C/head%3E%3Cbody%20style%3D%22margin%3A0%3Bfont-family%3Asans-serif%3Bpadding%3A12px%22%3E%3Clabel%20style%3D%22font-size%3A13px%3Bcolor%3A%23555%22%3EInput%20in%20a%20data%3A%20URL%20iframe%3C/label%3E%3Cbr%3E%3Cinput%20type%3D%22text%22%20placeholder%3D%22Type%20ztext%20here...%22%20style%3D%22width%3A100%25%3Bmargin-top%3A6px%3Bpadding%3A8px%3Bborder%3A1px%20solid%20%23ccc%3Bborder-radius%3A4px%3Bbox-sizing%3Aborder-box%22%3E%3C/body%3E%3C/html%3E"
             ></iframe>
             <div class="hint">Opaque origin — exercises the postMessage <code>'*'</code> focusIn fallback (old code dropped these).</div>
         </div>
