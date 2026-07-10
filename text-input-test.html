@@ -363,10 +363,11 @@
             <div class="hint"><strong>PR #3515 regression repro:</strong> scroll this field's top edge to the very
                 top of the window, click into it, then scroll a little (or refocus). With no room above or below,
                 TE places its icon <em>inside</em> the top-right corner, and the chip forces the visibility scan to
-                run. <strong>Broken build:</strong> the icon jitters/creeps between vertical positions on every
-                reposition tick (the deep <code>elementFromPoint</code> pierces the icon's own shadow root, the
-                <code>te-floating-button-container</code> self-ignore check misses, and the icon reads as a covering
-                element). <strong>Main:</strong> the icon sits rock-stable just below the chip.</div>
+                run. <strong>PR build (unfixed):</strong> while scrolling, the icon jitters/creeps between vertical
+                positions on every reposition tick (the deep <code>elementFromPoint</code> pierces the icon's own
+                shadow root, the <code>te-floating-button-container</code> self-ignore check misses, and the icon
+                reads as a covering element). <strong>PR build (with self-ignore fix):</strong> icon tracks smoothly.
+                <strong>Main:</strong> no icon appears on shadow-DOM fields at all — that's what the PR fixes.</div>
         </div>
     </div>
 
