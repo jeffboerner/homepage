@@ -340,15 +340,30 @@
         <div class="hint">Input field inside Shadow DOM</div>
 
         <div class="field-group" style="margin-top:20px">
-            <label>Tall Shadow DOM textarea (viewport-height)</label>
-            <div id="tall-shadow-host"></div>
-            <div class="hint">Scroll this field's top edge to the very top of the window, then focus it.
-                With no room above <em>or</em> below, TE places the icon <strong>inside</strong> the field's
-                top-right corner — the icon then overlaps its own hit-test point
-                (<code>isElementVisibleAtPoint</code>), which is the PR #3515 self-ignore regression case:
-                the deep <code>elementFromPoint</code> pierces the icon's own shadow root, the
-                <code>te-floating-button-container</code> id check misses, and the icon should
-                falsely hide/flicker on the broken build.</div>
+            <label>Tall Shadow DOM textarea (viewport-height, with top-right "Saving…" chip)</label>
+            <div style="position:relative">
+                <!-- Partial occluder over the field's top-RIGHT corner only. This is what makes the
+                     PR #3515 hit-test regression observable:
+                     1. It covers the y = top+1 fast-path sample at the right-edge x, so
+                        getVisibleTop's linear scan actually runs (otherwise the fast path returns
+                        before any scan point can land on the TE icon, which sits 4px down).
+                     2. It leaves the CENTER x-sample clear, so at scan depths the icon itself is
+                        the deciding occluder at the right-edge sample — old build self-ignores it
+                        (elementFromPoint stops at the icon's shadow host), PR build pierces into
+                        the icon's shadow root and reads the field as "covered" there.
+                     Keep it ≤ ~14px tall so the y = top+20 scan step lands on the icon, not the chip. -->
+                <div aria-hidden="true" style="position:absolute;top:-6px;right:0;height:12px;width:140px;
+                     background:#e0e3e8;border:1px solid #c3c9d2;border-radius:6px;z-index:5;
+                     pointer-events:none;font-size:9px;line-height:10px;color:#667;text-align:center">Saving…</div>
+                <div id="tall-shadow-host"></div>
+            </div>
+            <div class="hint"><strong>PR #3515 regression repro:</strong> scroll this field's top edge to the very
+                top of the window, click into it, then scroll a little (or refocus). With no room above or below,
+                TE places its icon <em>inside</em> the top-right corner, and the chip forces the visibility scan to
+                run. <strong>Broken build:</strong> the icon jitters/creeps between vertical positions on every
+                reposition tick (the deep <code>elementFromPoint</code> pierces the icon's own shadow root, the
+                <code>te-floating-button-container</code> self-ignore check misses, and the icon reads as a covering
+                element). <strong>Main:</strong> the icon sits rock-stable just below the chip.</div>
         </div>
     </div>
 
