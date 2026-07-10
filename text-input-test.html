@@ -352,16 +352,22 @@
                         (elementFromPoint stops at the icon's shadow host), PR build pierces into
                         the icon's shadow root and reads the field as "covered" there.
                      Keep it ≤ ~14px tall so the y = top+20 scan step lands on the icon, not the chip. -->
-                <!-- NOTE: the chip must NOT have pointer-events:none — elementFromPoint skips
-                     pointer-events:none elements, which would make it invisible to the hit-test
-                     and defeat the whole setup. It swallows clicks in its 140x12 sliver; fine. -->
-                <div aria-hidden="true" style="position:absolute;top:-6px;right:0;height:12px;width:140px;
-                     background:#e0e3e8;border:1px solid #c3c9d2;border-radius:6px;z-index:5;
-                     font-size:9px;line-height:10px;color:#667;text-align:center">Saving…</div>
+                <!-- NOTE 1: the chip must NOT have pointer-events:none — elementFromPoint skips
+                     pointer-events:none elements, making it invisible to the hit-test.
+                     NOTE 2: it must be position:sticky, NOT absolute-at-field-top — anchored to the
+                     field's top edge it scrolls out of hit-test range once rect.top < -6, leaving a
+                     ~7px scroll band where the bug can fire (invisible in practice). Sticky keeps it
+                     pinned over the field's top-right corner for the WHOLE scroll range, so the
+                     fast-path sample stays occluded and every reposition tick runs the scan. -->
+                <div aria-hidden="true" style="position:sticky;top:0;height:12px;width:140px;
+                     margin-left:auto;margin-bottom:-12px;background:#e0e3e8;border:1px solid #c3c9d2;
+                     border-radius:6px;z-index:5;font-size:9px;line-height:10px;color:#667;
+                     text-align:center">Saving…</div>
                 <div id="tall-shadow-host"></div>
             </div>
-            <div class="hint"><strong>PR #3515 regression repro:</strong> scroll this field's top edge to the very
-                top of the window, click into it, then scroll a little (or refocus). With no room above or below,
+            <div class="hint"><strong>PR #3515 regression repro:</strong> click into the field, then scroll
+                continuously while the field fills the viewport (the sticky chip stays pinned top-right).
+                With no room above or below,
                 TE places its icon <em>inside</em> the top-right corner, and the chip forces the visibility scan to
                 run. <strong>PR build (unfixed):</strong> while scrolling, the icon jitters/creeps between vertical
                 positions on every reposition tick (the deep <code>elementFromPoint</code> pierces the icon's own
