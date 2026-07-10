@@ -381,9 +381,24 @@
         </div>
     </div>
 
-    <!-- Spacer so the Shadow DOM fields above can be scrolled to the very top of the viewport -->
+    <div class="section">
+        <h2>Plain-DOM twin of the PR #3515 repro (no shadow root)</h2>
+        <div style="position:relative">
+            <div aria-hidden="true" style="position:sticky;top:0;height:12px;width:140px;
+                 margin-left:auto;margin-bottom:-12px;background:#e0e3e8;border:1px solid #c3c9d2;
+                 border-radius:6px;z-index:5;font-size:9px;line-height:10px;color:#667;
+                 text-align:center">Saving…</div>
+            <textarea style="width:100%;height:150vh;box-sizing:border-box;padding:10px;border:1px solid #999;border-radius:4px;resize:vertical"
+                placeholder="Ordinary light-DOM textarea, same geometry as the shadow one above — the PR #3515 icon dance is NOT shadow-field-specific; it should reproduce here identically (this field works fine on main)."></textarea>
+        </div>
+        <div class="hint">Same repro steps as the shadow field. On main this field is stable — the dance here
+            is a regression on previously-working pages, since the pierced shadow root belongs to the TE
+            <em>icon itself</em>, not to the field.</div>
+    </div>
+
+    <!-- Spacer so the fields above can be scrolled to the very top of the viewport -->
     <div style="height:150vh" aria-hidden="true">
-        <p class="hint" style="padding-top:20px">↑ Spacer — lets you scroll the Shadow DOM section to the top of the window.</p>
+        <p class="hint" style="padding-top:20px">↑ Spacer — lets you scroll the sections above to the top of the window.</p>
     </div>
 
     <script>
