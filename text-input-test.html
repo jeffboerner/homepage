@@ -414,7 +414,11 @@
                 <style>
                     textarea {
                         width: 100%;
-                        height: calc(100vh - 10px);
+                        /* Must be clearly TALLER than the viewport: the icon-inside-field fallback
+                           (the collision precondition) requires no room above AND below — i.e.
+                           rect.top < ~28 while rect.bottom > viewport - ~28. At 150vh that holds
+                           for ~50vh of scroll travel; at 100vh-10px it held for a ~46px band. */
+                        height: 150vh;
                         padding: 10px;
                         border: 1px solid #ccc;
                         border-radius: 4px;
