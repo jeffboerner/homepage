@@ -352,9 +352,12 @@
                         (elementFromPoint stops at the icon's shadow host), PR build pierces into
                         the icon's shadow root and reads the field as "covered" there.
                      Keep it ≤ ~14px tall so the y = top+20 scan step lands on the icon, not the chip. -->
+                <!-- NOTE: the chip must NOT have pointer-events:none — elementFromPoint skips
+                     pointer-events:none elements, which would make it invisible to the hit-test
+                     and defeat the whole setup. It swallows clicks in its 140x12 sliver; fine. -->
                 <div aria-hidden="true" style="position:absolute;top:-6px;right:0;height:12px;width:140px;
                      background:#e0e3e8;border:1px solid #c3c9d2;border-radius:6px;z-index:5;
-                     pointer-events:none;font-size:9px;line-height:10px;color:#667;text-align:center">Saving…</div>
+                     font-size:9px;line-height:10px;color:#667;text-align:center">Saving…</div>
                 <div id="tall-shadow-host"></div>
             </div>
             <div class="hint"><strong>PR #3515 regression repro:</strong> scroll this field's top edge to the very
