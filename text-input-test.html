@@ -338,6 +338,23 @@
         <h2>Shadow DOM (if supported)</h2>
         <div id="shadow-host"></div>
         <div class="hint">Input field inside Shadow DOM</div>
+
+        <div class="field-group" style="margin-top:20px">
+            <label>Tall Shadow DOM textarea (viewport-height)</label>
+            <div id="tall-shadow-host"></div>
+            <div class="hint">Scroll this field's top edge to the very top of the window, then focus it.
+                With no room above <em>or</em> below, TE places the icon <strong>inside</strong> the field's
+                top-right corner — the icon then overlaps its own hit-test point
+                (<code>isElementVisibleAtPoint</code>), which is the PR #3515 self-ignore regression case:
+                the deep <code>elementFromPoint</code> pierces the icon's own shadow root, the
+                <code>te-floating-button-container</code> id check misses, and the icon should
+                falsely hide/flicker on the broken build.</div>
+        </div>
+    </div>
+
+    <!-- Spacer so the Shadow DOM fields above can be scrolled to the very top of the viewport -->
+    <div style="height:150vh" aria-hidden="true">
+        <p class="hint" style="padding-top:20px">↑ Spacer — lets you scroll the Shadow DOM section to the top of the window.</p>
     </div>
 
     <script>
@@ -360,6 +377,29 @@
             `;
         } else {
             shadowHost.innerHTML = '<em>Shadow DOM not supported in this browser</em>';
+        }
+
+        // Tall shadow-DOM textarea: sized to ~full viewport height so that when its top edge
+        // is scrolled to the top of the window there is no room for the TE icon above OR below,
+        // forcing the icon-inside-field fallback (the PR #3515 hit-test regression case).
+        const tallShadowHost = document.getElementById('tall-shadow-host');
+        if (tallShadowHost.attachShadow) {
+            const tallShadow = tallShadowHost.attachShadow({ mode: 'open' });
+            tallShadow.innerHTML = `
+                <style>
+                    textarea {
+                        width: 100%;
+                        height: calc(100vh - 10px);
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                        font-size: 14px;
+                        box-sizing: border-box;
+                        resize: vertical;
+                    }
+                </style>
+                <textarea placeholder="Tall textarea inside Shadow DOM — scroll my top edge to the top of the window, then click here and watch the icon in my top-right corner..."></textarea>
+            `;
         }
     </script>
 </body>
