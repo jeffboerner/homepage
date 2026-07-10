@@ -365,8 +365,12 @@
                      text-align:center">Saving…</div>
                 <div id="tall-shadow-host"></div>
             </div>
-            <div class="hint"><strong>PR #3515 regression repro:</strong> click into the field, then scroll
-                continuously while the field fills the viewport (the sticky chip stays pinned top-right).
+            <div class="hint"><strong>PR #3515 regression repro:</strong> requires <em>overlay</em> scrollbars —
+                check <code>innerWidth - document.documentElement.clientWidth === 0</code>. A classic 15px
+                scrollbar shifts the icon left of the hit-test sample (<code>right - 10</code>) so they can
+                never collide (macOS: System Settings → Appearance → Show scroll bars → "When scrolling").
+                Then: click into the field and scroll continuously while the field fills the viewport
+                (the sticky chip stays pinned top-right).
                 With no room above or below,
                 TE places its icon <em>inside</em> the top-right corner, and the chip forces the visibility scan to
                 run. <strong>PR build (unfixed):</strong> while scrolling, the icon jitters/creeps between vertical
